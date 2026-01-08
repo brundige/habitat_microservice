@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reptillia API - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --accent: #f39c12;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark);
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero {
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-top: 4px solid var(--primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .api-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 60px 20px;
+            border-radius: 12px;
+            margin: 60px 20px;
+            text-align: center;
+        }
+
+        .api-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .api-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .endpoint-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .endpoint {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            text-align: left;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .endpoint-method.get {
+            background: #3498db;
+        }
+
+        .endpoint-method.post {
+            background: #27ae60;
+        }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            margin-bottom: 5px;
+        }
+
+        .endpoint-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .hero-emoji {
+                font-size: 60px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                font-size: 14px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .api-section {
+                margin: 40px 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <span>🐢</span>
+                <span class="logo-text">Reptillia API</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/health">❤️ Health</a></li>
+                <li><a href="/docs">📖 Docs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-emoji">🦎</div>
+            <h1>Welcome to Reptillia API</h1>
+            <p>A powerful sensor monitoring system for reptile habitats running on Raspberry Pi</p>
+            <div class="cta-buttons">
+                <a href="/docs" class="btn btn-primary">📖 View API Docs</a>
+                <a href="/health" class="btn btn-secondary">❤️ Check Health</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container" style="grid-column: 1 / -1; display: contents;">
+            <div class="feature-card">
+                <div class="feature-icon">🌡️</div>
+                <h3>Temperature Monitoring</h3>
+                <p>Real-time temperature tracking for optimal habitat conditions with precise sensor readings.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💧</div>
+                <h3>Humidity Control</h3>
+                <p>Monitor and maintain humidity levels critical for reptile health and comfort.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>Light Management</h3>
+                <p>Track lighting conditions to ensure proper circadian rhythms and UV exposure.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Data Persistence</h3>
+                <p>All readings stored in MongoDB with persistent volumes for historical analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Lightweight Stack</h3>
+                <p>Built with FastAPI and containerized for Raspberry Pi performance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔌</div>
+                <h3>Easy Integration</h3>
+                <p>Simple REST API for sensors and external systems to send and retrieve data.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Section -->
+    <section class="api-section">
+        <div class="container">
+            <h2>API Endpoints</h2>
+            <p>Start integrating with our REST API</p>
+            <div class="endpoint-list">
+                <div class="endpoint">
+                    <div class="endpoint-method post">POST</div>
+                    <div class="endpoint-path">/api/readings</div>
+                    <div class="endpoint-desc">Submit sensor readings</div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-method get">GET</div>
+                    <div class="endpoint-path">/api/readings/{tank_id}</div>
+                    <div class="endpoint-desc">Fetch readings by tank</div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-method get">GET</div>
+                    <div class="endpoint-path">/health</div>
+                    <div class="endpoint-desc">Check API status</div>
+                </div>
+            </div>
+
+            <!-- Powerstrip control panel -->
+            <div id="powerstrip-panel" style="margin-top: 30px; display:flex; gap:12px; justify-content:center;">
+                <!-- Example: 4 outlets. Adjust the count to match your device -->
+                <div class="outlet" data-index="1" style="padding:12px; background:white; border-radius:8px; text-align:center; min-width:120px;">
+                    <div style="font-weight:700; margin-bottom:8px;">Outlet 1</div>
+                    <div class="state" style="margin-bottom:8px;">loading</div>
+                    <button class="btn toggle-btn" style="background:var(--accent); color:white;">Toggle</button>
+                </div>
+                <div class="outlet" data-index="2" style="padding:12px; background:white; border-radius:8px; text-align:center; min-width:120px;">
+                    <div style="font-weight:700; margin-bottom:8px;">Outlet 2</div>
+                    <div class="state" style="margin-bottom:8px;">loading</div>
+                    <button class="btn toggle-btn" style="background:var(--accent); color:white;">Toggle</button>
+                </div>
+                <div class="outlet" data-index="3" style="padding:12px; background:white; border-radius:8px; text-align:center; min-width:120px;">
+                    <div style="font-weight:700; margin-bottom:8px;">Outlet 3</div>
+                    <div class="state" style="margin-bottom:8px;">loading</div>
+                    <button class="btn toggle-btn" style="background:var(--accent); color:white;">Toggle</button>
+                </div>
+                <div class="outlet" data-index="4" style="padding:12px; background:white; border-radius:8px; text-align:center; min-width:120px;">
+                    <div style="font-weight:700; margin-bottom:8px;">Outlet 4</div>
+                    <div class="state" style="margin-bottom:8px;">loading</div>
+                    <button class="btn toggle-btn" style="background:var(--accent); color:white;">Toggle</button>
+                </div>
+            </div>
+
+            <script src="/static/powerstrip.js"></script>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="container">
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Tanks Supported</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Sensor Types</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">1.0.0</div>
+                <div class="stat-label">API Version</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>🐢 Reptillia API | Keeping reptiles comfortable, one reading at a time</p>
+            <p style="margin-top: 15px; font-size: 14px;">
+                <a href="/docs">API Docs</a> •
+                <a href="/health">Health Status</a> •
+                Made for Raspberry Pi
+            </p>
+            <p style="margin-top: 20px; opacity: 0.7; font-size: 12px;">
+                © 2026 Reptillia API. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
+

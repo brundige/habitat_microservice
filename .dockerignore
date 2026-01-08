@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Project specific
+.env
+.env.local
+DB_generator.db
+
+# Node modules (if any)
+node_modules/
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+

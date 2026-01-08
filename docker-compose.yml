@@ -1,0 +1,63 @@
+services:
+  # MongoDB Service
+  mongo:
+    image: mongo:7
+    container_name: Reptile_Tank_MongoDB
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: tanks_db
+    ports:
+      - "27017:27017"
+    volumes:
+      # Persistent volume for MongoDB data
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+    networks:
+      - tank_network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok", "--quiet"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Tank Simulator App Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: Reptillia
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      # MongoDB connection - use service name as hostname within Docker network
+      MONGO_URI: mongodb://mongo:mongo@mongo:27017/?authSource=admin
+      MONGO_DB: tanks_db
+      MONGO_COLLECTION: sensor_readings
+      SERVER_API_URL: http://app:8000/api/readings
+      ENVIRONMENT: production
+    ports:
+      - "8000:8000"
+    networks:
+      - tank_network
+    volumes:
+      # Optional: mount app directory for live code updates (remove if not needed)
+      - .:/app
+    stdin_open: true
+    tty: true
+
+# Named volumes for persistence
+volumes:
+  mongo_data:
+    driver: local
+  mongo_config:
+    driver: local
+
+# Networks
+networks:
+  tank_network:
+    driver: bridge
+
