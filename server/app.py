@@ -163,16 +163,7 @@ async def root(request: Request):
     return templates.TemplateResponse("home.html", context)
 
 #
-@app.get("/api/tank_numbers")
-async def get_tank_numbers():
-    if collection is None:
-        raise HTTPException(status_code=500, detail="Database not initialized")
-    try:
-        tank_ids = await collection.distinct("tank_id")
-        return {"tank_ids": tank_ids}
-    except Exception as e:
-        logger.exception("Failed to fetch tank numbers")
-        raise HTTPException(status_code=502, detail="Failed to fetch tank numbers")
+
 
 @app.get("/api/readings/{tank_id}")
 async def get_readings(tank_id: int):
