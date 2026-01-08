@@ -162,16 +162,18 @@ async def root(request: Request):
     context = {"request": request}
     return templates.TemplateResponse("home.html", context)
 
-#@app.get("/api/tank_numbers")
-async def get_tank_numbers():
+@app.get("/api/tanks")
+async def get_unique_tanks():
+    """Get all unique tank IDs from sensor readings."""
     if collection is None:
         raise HTTPException(status_code=500, detail="Database not initialized")
-    try:
-        tank_ids = await collection.distinct("tank_id")
-        return {"tank_ids": tank_ids}
-    except Exception as e:
-        logger.exception("Failed to fetch tank numbers")
-        raise HTTPException(status_code=502, detail="Failed to fetch tank numbers")
+    pipeline = [
+        {"$group": {"_id": "$tank_id"}},    # group by tank_id
+        {"$sort": {"_id": 1}}               # sort by tank_id
+    ]
+    res = await collection.aggregate(pipeline).to_list(length=None)
+    tank_ids = [doc["_id"] for doc in res]
+    return {"tank_ids": tank_ids, "count": len(tank_ids)}
 
 
 @app.get("/api/readings/{tank_id}")
