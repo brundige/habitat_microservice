@@ -162,7 +162,7 @@ async def root(request: Request):
     context = {"request": request}
     return templates.TemplateResponse("home.html", context)
 
-
+#
 @app.get("/api/tank_numbers")
 async def get_tank_numbers():
     if collection is None:
